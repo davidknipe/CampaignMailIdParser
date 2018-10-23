@@ -1,0 +1,1 @@
+﻿svcutil.exe /t:code https://api.campaign.episerver.net/soap11/MailId?wsdl /config:campaignServices.config /namespace:*,CampaignMailIdParser /out:MailId.cs
