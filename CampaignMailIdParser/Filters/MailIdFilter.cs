@@ -19,7 +19,7 @@ namespace CampaignMailIdParser.Filters
         private readonly Lazy<ITrackingService> _trackingService;
         private readonly IMarketingConnectorManager _connectorManager;
         private IMarketingConnector _campaignConnector;
-        private ICookieHelper _cookieHelper;
+        private readonly ICookieHelper _cookieHelper;
 
         public MailIdFilter(IMailId mailId, Lazy<ITrackingService> trackingService, IMarketingConnectorManager connectorManager)
         {
@@ -67,9 +67,9 @@ namespace CampaignMailIdParser.Filters
         {
             // Use the cookie helper to drop the Campaign tracking cookie
             var datasourceId = _campaignConnector.GetDataSources().First().Id.ToString();
-            List<CookieData> trackingCookie = this._cookieHelper.GetTrackingCookie(_campaignConnector.Id.ToString(),
+            var trackingCookie = _cookieHelper.GetTrackingCookie(_campaignConnector.Id.ToString(),
                 _campaignConnector.InstanceId.ToString());
-            CookieData data = trackingCookie.FirstOrDefault(cd => cd.DatasourceId == datasourceId);
+            var data = trackingCookie.FirstOrDefault(cd => cd.DatasourceId == datasourceId);
             if (data != null)
             {
                 data.EntityId = email;
